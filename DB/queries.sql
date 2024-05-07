@@ -12,7 +12,6 @@
 -- Database Section
 -- ________________ 
 
-create database RELATIONS;
 use RELATIONS;
 
 
@@ -22,7 +21,7 @@ use RELATIONS;
 create table assume_cameriere (
      codice_fiscale_cameriere char(16) not null,
      idRistorante int not null,
-     constraint ID_assume_cameriere_ID primary key (idRistorante, codice_fiscale_cameriere));
+     constraint ID_assume_cameriere_ID primary key (idRistorante,codice_fiscale_cameriere));
 
 create table assume_cuoco (
      codice_fiscale_cuoco char(16) not null,
@@ -34,6 +33,7 @@ create table CAMERIERE (
      codice_fiscale char(40) not null,
      constraint ID_CAMERIERE_ID primary key (codice_fiscale_cameriere),
      constraint FKregistra_cameriere_ID unique (codice_fiscale));
+
 
 create table CATALOGO_PRODOTTI (
      categoria char(40) not null,
@@ -63,6 +63,7 @@ create table CONTO (
      constraint ID_CONTO_ID primary key (ordine),
      constraint FKgenera_ID unique (idOrdine));
 
+
 create table CUOCO (
      codice_fiscale_cuoco char(16) not null,
      codice_fiscale char(40) not null,
@@ -71,14 +72,14 @@ create table CUOCO (
      constraint FKregistra_cuoco_ID unique (codice_fiscale));
 
 create table DISPENSA (
-     quantita int not null,
-     idProdotto int not null,
+     idProdotto int AUTO_INCREMENT not null,
      prezzo float(1) not null,
      data_scadenza date not null,
      data_arrivo date not null,
      temperatura_conservazione int not null,
      nome char(40) not null,
      idRistorante int not null,
+     quantita int not null,
      constraint ID_DISPENSA_ID primary key (idProdotto));
 
 create table intollerante (
@@ -91,7 +92,7 @@ create table INTOLLERANZA (
      constraint ID_INTOLLERANZA_ID primary key (nome_intolleranza));
 
 create table MENU (
-     prezzo char(1) not null,
+     prezzo int not null,
      nome_portata char(40) not null,
      id_portata int not null,
      descrizione char(50) not null,
@@ -99,7 +100,7 @@ create table MENU (
      constraint ID_MENU_ID primary key (id_portata));
 
 create table ORDINE (
-     idOrdine int not null,
+     idOrdine int AUTO_INCREMENT not null,
      data date not null,
      orario char(40) not null,
      codice_fiscale_cameriere char(16) not null,
@@ -113,7 +114,7 @@ create table prepara (
      constraint ID_prepara_ID primary key (idPreparazione, codice_fiscale_cuoco));
 
 create table PREPARAZIONE (
-     idPreparazione int not null,
+     idPreparazione int AUTO_INCREMENT not null,
      pasto char(40) not null,
      descrizione char(50) not null,
      data date not null,
@@ -126,7 +127,7 @@ create table ricettario (
      constraint ID_ricettario_ID primary key (id_portata, idProdotto));
 
 create table RISTORANTE (
-     idRistorante int not null,
+     idRistorante int AUTO_INCREMENT not null,
      nomeRistorante char(40) not null,
      via char(40) not null,
      numero_civico char(3) not null,
@@ -142,11 +143,12 @@ create table STORICO_DIPENDENTI (
      constraint ID_STORICO_DIPENDENTI_ID primary key (codice_fiscale));
 
 create table TAVOLO (
-     idRistorante int not null,
+     idRistorante int AUTO_INCREMENT not null,
      prenotato char not null,
-     max_persone bigint not null,
+     max_persone int not null,
      numero_tavolo int not null,
      constraint ID_TAVOLO_ID primary key (idRistorante, numero_tavolo));
+
 
 
 -- Constraints Section
@@ -374,3 +376,64 @@ create unique index ID_STORICO_DIPENDENTI_IND
 create unique index ID_TAVOLO_IND
      on TAVOLO (idRistorante, numero_tavolo);
 
+
+-- INSERTIONS OF TEST RECORDS
+
+INSERT INTO `RELATIONS`.`RISTORANTE` (`idRistorante`, `nomeRistorante`, `via`, `numero_civico`, `citta`) VALUES ('1', 'ristorante', 'via', '1', 'RN');
+
+INSERT INTO `RELATIONS`.`STORICO_DIPENDENTI` (`codice_fiscale`, `nome`, `cognome`, `data_stipula_contratto`, `data_fine_contratto`) VALUES ('cod1', 'Mario', 'Rossi', '2024-01-01', '2025-01-01');
+INSERT INTO `RELATIONS`.`STORICO_DIPENDENTI` (`codice_fiscale`, `nome`, `cognome`, `data_stipula_contratto`, `data_fine_contratto`) VALUES ('cod2', 'Luca', 'Voltolini', '2024-01-01', '2025-01-01');
+INSERT INTO `RELATIONS`.`STORICO_DIPENDENTI` (`codice_fiscale`, `nome`, `cognome`, `data_stipula_contratto`, `data_fine_contratto`) VALUES ('cod3', 'Lucia', 'Dantini', '2024-01-01', '2025-01-01');
+INSERT INTO `RELATIONS`.`STORICO_DIPENDENTI` (`codice_fiscale`, `nome`, `cognome`, `data_stipula_contratto`, `data_fine_contratto`) VALUES ('cod4', 'Marco', 'Rocci', '2024-01-01', '2025-01-01');
+
+INSERT INTO `RELATIONS`.`CUOCO` (`codice_fiscale_cuoco`, `codice_fiscale`, `grado`) VALUES ('cod1', 'cod1', 'chef');
+INSERT INTO `RELATIONS`.`CUOCO` (`codice_fiscale_cuoco`, `codice_fiscale`, `grado`) VALUES ('cod2', 'cod2', 'sous chef');
+
+INSERT INTO `RELATIONS`.`CAMERIERE` (`codice_fiscale_cameriere`, `codice_fiscale`) VALUES ('cod3', 'cod3');
+INSERT INTO `RELATIONS`.`CAMERIERE` (`codice_fiscale_cameriere`, `codice_fiscale`) VALUES ('cod4', 'cod4');
+
+INSERT INTO `RELATIONS`.`TAVOLO` (`idRistorante`, `prenotato`, `max_persone`, `numero_tavolo`) VALUES ('1', '0', '3', '1');
+INSERT INTO `RELATIONS`.`TAVOLO` (`idRistorante`, `prenotato`, `max_persone`, `numero_tavolo`) VALUES ('1', '0', '4', '2');
+INSERT INTO `RELATIONS`.`TAVOLO` (`idRistorante`, `prenotato`, `max_persone`, `numero_tavolo`) VALUES ('1', '0', '2', '3');
+
+INSERT INTO `RELATIONS`.`MENU` (`prezzo`, `nome_portata`, `id_portata`, `descrizione`, `tempo_preparazione`) VALUES ('10', 'Pasta al sugo', '0', 'desc', '12');
+INSERT INTO `RELATIONS`.`MENU` (`prezzo`, `nome_portata`, `id_portata`, `descrizione`, `tempo_preparazione`) VALUES ('10', 'Carbonara', '1', 'desc', '12');
+INSERT INTO `RELATIONS`.`MENU` (`prezzo`, `nome_portata`, `id_portata`, `descrizione`, `tempo_preparazione`) VALUES ('10', 'Amatriciana', '2', 'desc', '12');
+INSERT INTO `RELATIONS`.`MENU` (`prezzo`, `nome_portata`, `id_portata`, `descrizione`, `tempo_preparazione`) VALUES ('10', 'Lasagna', '3', 'desc', '12');
+INSERT INTO `RELATIONS`.`MENU` (`prezzo`, `nome_portata`, `id_portata`, `descrizione`, `tempo_preparazione`) VALUES ('10', 'Pizza', '4', 'desc', '12');
+
+INSERT INTO `RELATIONS`.`PREPARAZIONE` (`idPreparazione`, `pasto`, `descrizione`, `data`, `id_portata`) VALUES ('1', 'pranzo', 'desc', '2024-05-05', '0');
+INSERT INTO `RELATIONS`.`PREPARAZIONE` (`idPreparazione`, `pasto`, `descrizione`, `data`, `id_portata`) VALUES ('2', 'cena', 'desc', '2024-05-05', '0');
+INSERT INTO `RELATIONS`.`PREPARAZIONE` (`idPreparazione`, `pasto`, `descrizione`, `data`, `id_portata`) VALUES ('3', 'pranzo', 'desc', '2024-05-05', '1');
+INSERT INTO `RELATIONS`.`PREPARAZIONE` (`idPreparazione`, `pasto`, `descrizione`, `data`, `id_portata`) VALUES ('4', 'colazione', 'desc', '2024-05-05', '2');
+
+INSERT INTO `RELATIONS`.`prepara` (`codice_fiscale_cuoco`, `idPreparazione`) VALUES ('cod1', '1');
+INSERT INTO `RELATIONS`.`prepara` (`codice_fiscale_cuoco`, `idPreparazione`) VALUES ('cod1', '2');
+INSERT INTO `RELATIONS`.`prepara` (`codice_fiscale_cuoco`, `idPreparazione`) VALUES ('cod2', '1');
+
+INSERT INTO `RELATIONS`.`ORDINE` (`idOrdine`, `data`, `orario`, `codice_fiscale_cameriere`, `idRistorante`, `numero_tavolo`) VALUES ('1', '2024-01-01', '12:30', 'cod3', '1', '1');
+INSERT INTO `RELATIONS`.`ORDINE` (`idOrdine`, `data`, `orario`, `codice_fiscale_cameriere`, `idRistorante`, `numero_tavolo`) VALUES ('2', '2024-01-01', '12:30', 'cod3', '1', '1');
+INSERT INTO `RELATIONS`.`ORDINE` (`idOrdine`, `data`, `orario`, `codice_fiscale_cameriere`, `idRistorante`, `numero_tavolo`) VALUES ('3', '2024-01-01', '12:30', 'cod3', '1', '1');
+INSERT INTO `RELATIONS`.`ORDINE` (`idOrdine`, `data`, `orario`, `codice_fiscale_cameriere`, `idRistorante`, `numero_tavolo`) VALUES ('4', '2024-01-01', '12:30', 'cod3', '1', '1');
+INSERT INTO `RELATIONS`.`ORDINE` (`idOrdine`, `data`, `orario`, `codice_fiscale_cameriere`, `idRistorante`, `numero_tavolo`) VALUES ('5', '2024-01-01', '12:30', 'cod4', '1', '1');
+INSERT INTO `RELATIONS`.`ORDINE` (`idOrdine`, `data`, `orario`, `codice_fiscale_cameriere`, `idRistorante`, `numero_tavolo`) VALUES ('6', '2024-01-01', '12:30', 'cod4', '1', '1');
+
+INSERT INTO `RELATIONS`.`CONTO` (`totale`, `ordine`, `idOrdine`, `data`) VALUES ('100', '2', '2', '2024-01-02');
+INSERT INTO `RELATIONS`.`CONTO` (`totale`, `ordine`, `idOrdine`, `data`) VALUES ('23', '3', '3', '2024-01-02');
+INSERT INTO `RELATIONS`.`CONTO` (`totale`, `ordine`, `idOrdine`, `data`) VALUES ('53', '4', '4', '2024-01-02');
+INSERT INTO `RELATIONS`.`CONTO` (`totale`, `ordine`, `idOrdine`, `data`) VALUES ('76', '5', '5', '2024-01-02');
+
+INSERT INTO `RELATIONS`.`CATALOGO_PRODOTTI` (`categoria`, `nome`) VALUES ('verdura', 'broccoli');
+INSERT INTO `RELATIONS`.`CATALOGO_PRODOTTI` (`categoria`, `nome`) VALUES ('verdura', 'carciofi');
+INSERT INTO `RELATIONS`.`CATALOGO_PRODOTTI` (`categoria`, `nome`) VALUES ('verdura', 'piselli');
+INSERT INTO `RELATIONS`.`CATALOGO_PRODOTTI` (`categoria`, `nome`) VALUES ('verdura', 'insalata');
+INSERT INTO `RELATIONS`.`CATALOGO_PRODOTTI` (`categoria`, `nome`) VALUES ('verdura', 'pomodoro');
+INSERT INTO `RELATIONS`.`CATALOGO_PRODOTTI` (`categoria`, `nome`) VALUES ('carne', 'bistecca');
+INSERT INTO `RELATIONS`.`CATALOGO_PRODOTTI` (`categoria`, `nome`) VALUES ('carne', 'pollo');
+INSERT INTO `RELATIONS`.`CATALOGO_PRODOTTI` (`categoria`, `nome`) VALUES ('carne', 'tagliata');
+
+INSERT INTO `RELATIONS`.`DISPENSA` (`idProdotto`, `prezzo`, `data_scadenza`, `data_arrivo`, `temperatura_conservazione`, `nome`, `idRistorante`, `quantita`) VALUES ('1', '30', '2024-01-01', '2024-01-01', '25', 'pomodoro', '1', '2000');
+INSERT INTO `RELATIONS`.`DISPENSA` (`idProdotto`, `prezzo`, `data_scadenza`, `data_arrivo`, `temperatura_conservazione`, `nome`, `idRistorante`, `quantita`) VALUES ('2', '30', '2024-01-01', '2024-01-01', '25', 'insalata', '1', '2000');
+INSERT INTO `RELATIONS`.`DISPENSA` (`idProdotto`, `prezzo`, `data_scadenza`, `data_arrivo`, `temperatura_conservazione`, `nome`, `idRistorante`, `quantita`) VALUES ('3', '30', '2024-01-01', '2024-01-01', '25', 'pollo', '1', '2000');
+INSERT INTO `RELATIONS`.`DISPENSA` (`idProdotto`, `prezzo`, `data_scadenza`, `data_arrivo`, `temperatura_conservazione`, `nome`, `idRistorante`, `quantita`) VALUES ('4', '30', '2024-01-01', '2024-01-01', '25', 'tagliata', '1', '2000');
+INSERT INTO `RELATIONS`.`DISPENSA` (`idProdotto`, `prezzo`, `data_scadenza`, `data_arrivo`, `temperatura_conservazione`, `nome`, `idRistorante`, `quantita`) VALUES ('5', '30', '2024-01-01', '2024-01-01', '25', 'piselli', '1', '2000');

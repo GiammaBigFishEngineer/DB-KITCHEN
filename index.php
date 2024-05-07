@@ -19,6 +19,7 @@
 define('__ROOT__', dirname(__FILE__));
 
 require_once(__ROOT__ . '/controllers/CucinaController.php');
+require_once(__ROOT__ . '/controllers/StatsController.php');
 require_once(__ROOT__ . '/controllers/SaloneController.php');
 
 session_start();
@@ -41,6 +42,10 @@ class Dispatcher
             case '/':
                 $controller = new CucinaController();
                 $controller->showCucina();
+                break;
+            case '/statistiche':
+                $controller = new StatsController();
+                $controller->showStats();
                 break;
             case '/dispensa':
                 $controller = new CucinaController();

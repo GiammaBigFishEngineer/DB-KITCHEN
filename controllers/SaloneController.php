@@ -40,7 +40,8 @@ class SaloneController
         $idPortata = $_POST['id_portata'];
         try {
             $id = $obj->save();
-            $obj->assegnaPortata($idPortata);
+            $ordine = OrdineModel::get($id);
+            $ordine->assegnaPortata($idPortata);
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         } catch (Exception $err) {
             echo $err;

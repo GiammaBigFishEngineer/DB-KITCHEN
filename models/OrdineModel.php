@@ -27,6 +27,7 @@ class OrdineModel extends BaseModel
 
     public function assegnaPortata($idPortata) {
         $idOrdine = $this->idOrdine;
+        echo $idOrdine;
         $query = "INSERT INTO composto_menu values(:idPortata, :idOrdine)";
         $stmt = DB::get()->prepare($query);
         $succ = $stmt->execute([
@@ -34,5 +35,15 @@ class OrdineModel extends BaseModel
             'idOrdine' => $idOrdine
         ]);
         return $succ;
+    }
+
+    public static function get($idOrdine) {
+        $query = "SELECT * FROM " . static::$nome_tabella  . " WHERE idOrdine=:id";
+        $sth = DB::get()->prepare($query);
+        $sth->execute([
+            'id' => $idOrdine,
+        ]);
+        $row = $sth->fetch();
+        return new static($row);
     }
 }
