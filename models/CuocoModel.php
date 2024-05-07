@@ -28,8 +28,6 @@ class CuocoModel extends BaseModel
     }  
 
     public function assegnaPreparazione($idPreparazione) {
-        // Query per recuperare l'hash della password dal database
-        // data in formato date mysql dd-mm-yy
         $codice_fiscale_cuoco = $this->codice_fiscale_cuoco;
         $query = "INSERT INTO prepara values(:codice_fiscale_cuoco, :id)";
         $stmt = DB::get()->prepare($query);

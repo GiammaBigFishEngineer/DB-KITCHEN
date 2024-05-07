@@ -19,6 +19,7 @@
 define('__ROOT__', dirname(__FILE__));
 
 require_once(__ROOT__ . '/controllers/CucinaController.php');
+require_once(__ROOT__ . '/controllers/SaloneController.php');
 
 session_start();
 
@@ -36,12 +37,8 @@ class Dispatcher
     public function dispatch()
     {
         switch ($this->path) {
-            
-            case '/':
-    
-                break;
 
-            case '/cucina':
+            case '/':
                 $controller = new CucinaController();
                 $controller->showCucina();
                 break;
@@ -49,11 +46,18 @@ class Dispatcher
                 $controller = new CucinaController();
                 $controller->showDispensa();
                 break;
+            case '/modifica_quantita':
+                $controller = new CucinaController();
+                $controller->updateQuantita();
+                break;
             case '/salva_preparazione':
                 $controller = new CucinaController();
                 $controller->savePreparazione();
                 break;
-
+            case '/salva_ordine':
+                $controller = new SaloneController();
+                $controller->saveOrdine();
+                break;
             case '/salone':
                 $controller = new SaloneController();
                 $controller->showSalone();

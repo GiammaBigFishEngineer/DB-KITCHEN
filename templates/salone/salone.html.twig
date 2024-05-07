@@ -1,0 +1,88 @@
+{% extends "./common.html.twig" %}
+
+{% block content %}
+
+<h2>SALONE - scontrini filtrati in data  {{data}}</h2>
+<!--ORDINI-->
+<div class="d-flex">
+    <table class="table table-striped table-success p-5">
+        <thead>
+          <tr>
+            <th scope="col">idOrdine</th>
+            <th scope="col">data</th>
+            <th scope="col">numero tavolo</th>
+            <th scope="col">Portate</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ordine in ordini %}
+          <tr>
+           <th scope="row">{{ordine.idOrdine}}</th>
+           <th scope="row">{{ordine.data}}</th>
+           <th scope="row">{{ordine.numero_tavolo}}</th>
+           <th scope="row">
+            {{ordine.portate_arr.nome_portata}}
+           </th>
+          </tr>
+          {% endfor %}
+          
+        </tbody>
+      </table>
+      <!--CONTI-->
+      <table class="table table-danger table-striped p-5">
+        <thead>
+          <tr>
+            <th scope="col">data</th>
+            <th scope="col">totale</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for conto in conti %}
+          <tr>
+           <th scope="row">{{conto.data}}</th>
+           <th scope="row">{{conto.totale}}€</th>
+          </tr>
+          {% endfor %}
+          
+        </tbody>
+      </table>
+     
+</div>
+
+<form action="" method="GET">
+    <label for="data">Inserisci una data:</label>
+    <input type="date" id="data" name="data">
+    <button type="submit">Invia</button>
+</form>
+
+<h2>Inserisci un nuovo ordine</h2>
+<form action="/salva_ordine" method="POST">
+    <input type="hidden" id="idOrdine" name="idOrdine" value="0" />
+    
+    <label for="pasto">data</label><br>
+    <input class="form-control" type="date" id="data" name="data" required><br>
+
+    <label for="pasto">orario</label><br>
+    <input class="form-control" type="text" id="orario" name="orario" required><br>
+
+    <label for="pasto">Codice Fiscale del cameriere:</label><br>
+    <input class="form-control" type="text" id="codice_fiscale_cameriere" name="codice_fiscale_cameriere" required><br>
+
+    <label for="pasto">id Ristorante</label><br>
+    <input class="form-control" type="number" id="idRistorante" name="idRistorante" required><br>
+
+    <label for="pasto">Numero tavolo</label><br>
+    <input class="form-control" type="number" id="numero_tavolo" name="numero_tavolo" required><br>
+
+    <label for="id_portata">Portate:</label><br>
+
+    <select id="id_portata" name="id_portata" required>
+        {% for pasto in menu %}
+        <option value="{{ pasto.id_portata }}">{{pasto.nome_portata}}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <button type="submit">Salva</button>
+</form>
+
+{% endblock content %}

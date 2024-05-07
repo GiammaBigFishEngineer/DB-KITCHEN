@@ -74,7 +74,7 @@ create table CUOCO (
      constraint FKregistra_cuoco_ID unique (codice_fiscale));
 
 create table DISPENSA (
-     idProdotto int not null,
+     idProdotto int AUTO_INCREMENT not null,
      prezzo float(1) not null,
      data_scadenza date not null,
      data_arrivo date not null,
@@ -104,7 +104,7 @@ create table MENU (
      constraint ID_MENU_ID primary key (id_portata));
 
 create table ORDINE (
-     idOrdine int not null,
+     idOrdine int AUTO_INCREMENT not null,
      data date not null,
      orario char(40) not null,
      codice_fiscale_cameriere char(16) not null,
@@ -131,7 +131,7 @@ create table ricettario (
      constraint ID_ricettario_ID primary key (id_portata, idProdotto));
 
 create table RISTORANTE (
-     idRistorante int not null,
+     idRistorante int AUTO_INCREMENT not null,
      nomeRistorante char(40) not null,
      via char(40) not null,
      numero_civico char(3) not null,
@@ -147,7 +147,7 @@ create table STORICO_DIPENDENTI (
      constraint ID_STORICO_DIPENDENTI_ID primary key (codice_fiscale));
 
 create table TAVOLO (
-     idRistorante int not null,
+     idRistorante int AUTO_INCREMENT not null,
      prenotato char not null,
      max_persone int not null,
      numero_tavolo int not null,
@@ -380,6 +380,8 @@ create unique index ID_STORICO_DIPENDENTI_IND
 create unique index ID_TAVOLO_IND
      on TAVOLO (idRistorante, numero_tavolo);
 
+# SCRIPT FOR POPULATE DB
+* prova
 # START PROGRAM
 
 php -S localhost:8000

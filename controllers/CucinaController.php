@@ -2,8 +2,10 @@
 
 require_once dirname(__DIR__) . "/models/CuocoModel.php";
 require_once dirname(__DIR__) . "/models/MenuModel.php";
+require_once dirname(__DIR__) . "/models/DispensaModel.php";
 require_once dirname(__DIR__) . "/models/PreparazioneModel.php";
 require_once dirname(__DIR__) . "/views/CucinaView.php";
+require_once dirname(__DIR__) . "/views/DispensaView.php";
 
 class CucinaController
 {
@@ -20,7 +22,7 @@ class CucinaController
         $menu = MenuModel::all();
         //rendering template
         $view = new CucinaView();
-        $view->render($cuochi, $menu);
+        $view->render($cuochi, $menu, $data);
     }
 
     public static function savePreparazione()
@@ -47,7 +49,22 @@ class CucinaController
     }
 
     public static function showDispensa() {
-        
+        $dispensa = DispensaModel::all();
+        //rendering template
+        $view = new DispensaView();
+        $view->render($dispensa);
+    }
+
+    public function updateQuantita() {
+        $idProd = $_POST['idProd'];
+        $prod = DispensaModel::get($idProd);
+        $prod->quantita = $_POST['quantita'];
+        try {
+            $id = $prod->save();
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        } catch (Exception $err) {
+            echo $err;
+        }
     }
 
 

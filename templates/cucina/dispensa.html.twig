@@ -1,0 +1,63 @@
+{% extends "./common.html.twig" %}
+
+{% block content %}
+<table class="table table-primary">
+    <thead>
+      <tr>
+        <th scope="col">nome</th>
+        <th scope="col">prezzo</th>
+        <th scope="col">data scadenza</th>
+        <th scope="col">data arrivo</th>
+        <th scope="col">temperatura di conservazione</th>
+        <th scope="col">quantità</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for prod in dispensa %}
+        <tr>
+            <th scope="row">{{prod.nome}}</th>
+            <td>{{prod.prezzo}}</td>
+            <td>{{prod.data_scadenza}}</td>
+            <td>{{prod.data_arrivo}}</td>
+            <td>{{prod.temperatura_conservazione}}</td>
+            <td>{{prod.quantita}}</td>
+            <td>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Modifica quantità
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        <form action="/modifica_quantita" method="POST">
+                            <input type="hidden" name="idProd" id="idProd" value="{{prod.idProdotto}}"
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Modifica quantità</label>
+                                <input type="number" class="form-control" name="quantita" id="quantita" value="{{prod.quantita}}">
+                            </div>    
+                       
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </form>
+                    </div>
+                    </div>
+                    </div>
+                </div>
+            </td>
+          </tr>
+      {% endfor %}
+      
+    </tbody>
+  </table>
+
+{% endblock content %}
