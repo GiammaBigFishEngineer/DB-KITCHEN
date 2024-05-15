@@ -1,0 +1,7 @@
+{
+    "require": {
+        "twig/twig": "^3.5",
+        "codeinc/strip-accents": "^1.1"
+    }
+
+}

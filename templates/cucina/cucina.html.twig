@@ -1,0 +1,64 @@
+{% extends "./common.html.twig" %}
+
+{% block content %}
+
+<h2>CUOCHI - mansione filtrata in data  {{data}}</h2>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Codice Fiscale</th>
+        <th scope="col">Grado</th>
+        <th scope="col">Mansione</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for cuoco in cuochi %}
+      <tr>
+       <th scope="row">{{cuoco.codice_fiscale}}</th>
+       <th scope="row">{{cuoco.grado}}</th>
+            
+            <th scope="row">
+                {% for mansione in cuoco.mansioni_arr %}
+                    {{mansione}}<br>
+                {% endfor %}
+            </th>
+      </tr>
+      {% endfor %}
+      
+    </tbody>
+  </table>
+ 
+
+<form action="" method="GET">
+    <label for="data">Inserisci una data:</label>
+    <input type="date" id="data" name="data">
+    <button type="submit">Invia</button>
+</form>
+
+<h2>Inserisci una nuova preparazione</h2>
+<form action="/salva_preparazione" method="POST">
+    <input type="hidden" id="idPreparazione" name="idPreparazione" value="0" />
+    
+    <label for="pasto">Pasto:</label><br>
+    <input class="form-control" type="text" id="pasto" name="pasto" required><br>
+
+    <label for="pasto">Codice Fiscale del cuoco:</label><br>
+    <input class="form-control" type="text" id="codice_fiscale_cuoco" name="codice_fiscale_cuoco" required><br>
+
+    <label for="descrizione">Descrizione:</label><br>
+    <textarea class="form-control" id="descrizione" name="descrizione" rows="4" cols="50" required></textarea><br>
+
+    <label for="data">Data:</label><br>
+    <input class="form-control" type="date" id="data" name="data" required><br>
+
+    <label for="id_portata">Portata:</label><br>
+    <select id="id_portata" name="id_portata" required>
+        {% for pasto in menu %}
+        <option value="{{ pasto.id_portata }}">{{pasto.nome_portata}}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <button type="submit">Salva</button>
+</form>
+
+{% endblock content %}
